@@ -29,8 +29,12 @@ def get_time_series_for_site(client: CogniteClient, site, space):
     )
 
     if not sub_tree_root:
+        # Debug: try fetching the raw node without type filtering to check space/existence
+        raw_node = client.data_modeling.instances.retrieve_nodes(NodeId(space, this_site))
         print(
             f"----No CogniteAssets in CDF for {site}!----\n"
+            f"    Raw node lookup result: {raw_node}\n"
+            f"    Looked up NodeId: space='{space}', external_id='{this_site}'\n"
             f"    Run the 'Create Cognite Asset Hierarchy' transformation!"
         )
         return
